@@ -1,0 +1,20 @@
+.app-button {
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.app-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px); /* subtle hover lift */
+}
+
+.app-button:active {
+  transform: translateY(0); /* click press effect */
+}

@@ -1,0 +1,10 @@
+/* Make the whole viewport a flex column */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /
+}
+* Ensure main content area grows to fill space */
+.app-content {
+  flex: 1; /* grows, pushing footer to bottom if content is short */
+}

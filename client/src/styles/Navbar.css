@@ -1,0 +1,84 @@
+:root {
+  --bg-color: #ffffff;
+  --nav-bg: #f8f6ff;
+  --text-color: #2d2d2d;
+  --accent: #b8a4ff;
+  --accent-hover: #a18bff;
+  --border-color: #e6e1ff;
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --nav-bg: #1c1b22;
+  --text-color: #f2f2f2;
+  --accent: #c7b8ff;
+  --accent-hover: #b2a1ff;
+  --border-color: #2a2833;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8rem 1.5rem;
+  background-color: var(--nav-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo-image{
+    height: 60px;
+    width: 60px;
+    margin-right: 0.5rem;
+}
+.navbar-logo {
+  display: flex;
+  align-items: center; /* vertical alignment */
+  gap: 0.1rem;         /* space between logo & text */
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.logo-text {
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+}
+
+.navbar-links li {
+  cursor: pointer;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+.navbar-links li:hover {
+  color: var(--accent);
+}
+
+.theme-btn {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.theme-btn:hover {
+  background-color: var(--accent-hover);
+}
