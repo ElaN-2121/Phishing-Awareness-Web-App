@@ -5,17 +5,14 @@
   color: var(--text-color);
 }
 .learn-hero {
-  max-width: 800px;
-  margin: 0 auto 3rem;
+    margin-bottom: 5rem;
   padding: 2rem;
-  border-radius: 12px;
+  background-color: var(--phish-detail-list-bg)
 }
 .hero-container {
   max-width: 900px;
-  margin: 0 auto;
   padding:15px;
   background-color: var(--phish-detail-list-bg);
-  border-radius: 12px;
 }
 .phishing-type-list{
     list-style: disc;

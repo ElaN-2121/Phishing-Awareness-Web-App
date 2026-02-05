@@ -1,56 +1,49 @@
-import {React, useState} from "react";
-import "../styles/Learn.css";
-import { mockLessons } from '../services/lessonData.js';
+import React, { useState } from "react";
+import SectionSelector from "../components/quiz/SelectionSelector";
+import QuestionCard from "../components/quiz/QuestionCard";
+import MobileLab from "../components/quiz/MobileLab";
+import ProgressBar from "../components/quiz/ProgressBar";
+import ResultPage from "../components/quiz/ResultPage";
+import { section1Data } from "../services/McqData";
+import {mockLessons} from "../services/lessonData";
 
-const LearnPage = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [feedback, setFeedback] = useState(null);
-  const lesson = mockLessons[currentStep];
+export default function QuizPage() {
+  const [sectionType, setSectionType] = useState(null); // 'mcq' or 'lab'
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
 
-  const handleAction = (action) => {
-    if (action === lesson.correctAction) {
-      setFeedback({ type: 'success', text: "Correct! You spotted the scam." });
+  if (!sectionType) {
+    return <SectionSelector onSelect={setSectionType} />;
+  }
+
+  const questions = sectionType === "mcq" ? section1Data.mcqQuestions : mockLessons;
+  const CurrentQuestion = sectionType === "mcq" ? QuestionCard : MobileLab;
+
+  const handleAnswer = (isCorrect, explanation) => {
+    if (isCorrect) setScore(score + 1);
+    if (currentIndex + 1 < questions.length) {
+      setCurrentIndex(currentIndex + 1);
     } else {
-      setFeedback({ type: 'error', text: "Oh no! That's exactly what the scammer wants." });
+      setShowResult(true);
     }
   };
 
+  const handleRetry = () => {
+    setCurrentIndex(0);
+    setScore(0);
+    setShowResult(false);
+    setSectionType(null);
+  };
+
+  if (showResult) {
+    return <ResultPage score={score} total={questions.length} onRetry={handleRetry} />;
+  }
+
   return (
-    <div className="learn-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px' }}>
-      {/* 1. Header & Progress */}
-      <header>
-        <h2>{lesson.title}</h2>
-        <div className="progress-bar" style={{ width: '100%', background: '#eee' }}>
-          <div style={{ width: '50%', background: '#4CAF50', height: '10px' }}></div>
-        </div>
-      </header>
-
-      {/* 2. The Lab (The Phone Simulator) */}
-      <section className="phone-mockup" style={{ border: '12px solid #333', borderRadius: '30px', padding: '20px', margin: '20px', width: '300px', background: '#fff' }}>
-        <div className="status-bar" style={{ fontSize: '12px', marginBottom: '10px' }}>12:30 PM 📶</div>
-        <div className="sms-bubble" style={{ background: '#e5e5ea', padding: '10px', borderRadius: '10px' }}>
-          <strong>From: {lesson.simulator.sender}</strong>
-          <p>{lesson.simulator.content}</p>
-        </div>
-      </section>
-
-      {/* 3. User Actions */}
-      <div className="action-buttons">
-        <button onClick={() => handleAction('CLICK')} style={{ backgroundColor: '#ff4444' }}>Click Link</button>
-        <button onClick={() => handleAction('BLOCK')} style={{ backgroundColor: '#44bb44' }}>Block Sender</button>
-        <button onClick={() => handleAction('IGNORE')}>Ignore</button>
-      </div>
-
-      {/* 4. Feedback Modal */}
-      {feedback && (
-        <div className={`feedback-area ${feedback.type}`} style={{ marginTop: '20px', textAlign: 'center' }}>
-          <h3>{feedback.type === 'success' ? "✅ Well Done!" : "❌ Be Careful!"}</h3>
-          <p>{lesson.explanation}</p>
-          <button onClick={() => setFeedback(null)}>Try Next Lesson</button>
-        </div>
-      )}
+    <div className="quiz-page" style={{ padding: "20px" }}>
+      <CurrentQuestion questionData={questions[currentIndex]} onAnswer={handleAnswer} />
+      <ProgressBar current={currentIndex + 1} total={questions.length} />
     </div>
   );
-};
-
-export default LearnPage;
+}
