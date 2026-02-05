@@ -2,8 +2,10 @@ import Button from "../components/common/Button";
 import "../styles/Home.css";
 import { useNavigate } from "react-router-dom";
 
-const Home = ({ toggleTheme, isDark }) => {
+const Home = () => {
+  const navigate = useNavigate();
   return (
+    
     <main className="home">
       {/* HERO SECTION */}
       <section className="hero">
@@ -74,7 +76,7 @@ const Home = ({ toggleTheme, isDark }) => {
           Build strong online habits and reduce your risk of falling for phishing
           attacks.
         </p>
-        <Button className="get-started-button">Get Started</Button>
+        <Button onClick={() => navigate("/quiz")} className="get-started-button">Get Started</Button>
       </section>
     </main>
   );

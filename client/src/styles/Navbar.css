@@ -5,6 +5,9 @@
   --accent: #b8a4ff;
   --accent-hover: #a18bff;
   --border-color: #e6e1ff;
+  --phish-detail-list-bg: #e4deff;
+  --phish-detail-list-bg-hovered: #f5f3ff;
+  --button-bg-2: #b8a4ff;
 }
 
 [data-theme="dark"] {
@@ -14,6 +17,9 @@
   --accent: #c7b8ff;
   --accent-hover: #b2a1ff;
   --border-color: #2a2833;
+  --phish-detail-list-bg: #5a3ea0;
+  --button-bg-2: #c7b8ff;
+  --phish-detail-list-bg-hovered: #6d57ae;
 }
 
 .navbar {
@@ -25,15 +31,15 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.logo-image{
-    height: 60px;
-    width: 60px;
-    margin-right: 0.5rem;
+.logo-image {
+  height: 60px;
+  width: 60px;
+  margin-right: 0.5rem;
 }
 .navbar-logo {
   display: flex;
   align-items: center; /* vertical alignment */
-  gap: 0.1rem;         /* space between logo & text */
+  gap: 0.1rem; /* space between logo & text */
   font-weight: 700;
   font-size: 1.2rem;
   color: var(--accent);
@@ -59,16 +65,20 @@
   list-style: none;
 }
 
-.navbar-links li {
-  cursor: pointer;
-  color: var(--text-color);
-  font-weight: 500;
+.navbar-links a {
+  color: var(--text-color); /* text color for normal state */
+  text-decoration: none; /* removes underline */
+  font-weight: 500; /* optional, match li */
+  transition: color 0.2s ease;
 }
 
-.navbar-links li:hover {
+.navbar-links a:hover {
   color: var(--accent);
 }
 
+.navbar-links a.active {
+  color: var(--accent);
+}
 .theme-btn {
   background-color: var(--accent);
   color: white;

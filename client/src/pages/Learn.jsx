@@ -1,10 +1,15 @@
-import React from 'react';
+import {React, useState} from "react";
+import "../styles/Learn.css";
+import LearnHero from "../components/LearnComponents/LearnHero";
+import PhishingGrid from "../components/LearnComponents/PhishingGrid";
 
 const Learn = () => {
   return (
-    <footer className="footer">
-      <p>This is learn page</p>
-    </footer>
+    <main className="learn">
+      <LearnHero />
+      <PhishingGrid />
+    </main>
   );
-}      
+};
+
 export default Learn;
