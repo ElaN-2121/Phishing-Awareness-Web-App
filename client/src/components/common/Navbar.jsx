@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react"; // 1. Import useState
 import "../../styles/Navbar.css";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "../../assets/logo.png";
 import Button from "./Button.jsx";
-import { NavLink } from "react-router-dom";
 
 const Navbar = ({ toggleTheme, isDark }) => {
+  // 2. State for mobile menu
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-logo">
@@ -13,39 +17,29 @@ const Navbar = ({ toggleTheme, isDark }) => {
         <span className="logo-text">PhishWise</span>
       </Link>
 
-      <ul className="navbar-links">
+      {/* 3. Add a Hamburger Icon */}
+      <div className="menu-icon" onClick={toggleMenu}>
+        <span className={isOpen ? "bar open" : "bar"}></span>
+        <span className={isOpen ? "bar open" : "bar"}></span>
+        <span className={isOpen ? "bar open" : "bar"}></span>
+      </div>
+
+      {/* 4. Conditionally add 'active' class to links */}
+      <ul className={`navbar-links ${isOpen ? "active" : ""}`}>
         <li>
-          <NavLink
-            to="/"
-            end
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Home
-          </NavLink>
+          <NavLink to="/" end onClick={() => setIsOpen(false)}>Home</NavLink>
         </li>
         <li>
-          <NavLink
-            to="/learn"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Learn
-          </NavLink>
+          <NavLink to="/learn" onClick={() => setIsOpen(false)}>Learn</NavLink>
         </li>
         <li>
-          <NavLink
-            to="/quiz"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Quizes
-          </NavLink>
+          <NavLink to="/quiz" onClick={() => setIsOpen(false)}>Quizzes</NavLink>
         </li>
         <li>
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) => (isActive ? "active" : "")}
-          >
-            Dashboard
-          </NavLink>
+          <NavLink to="/dashboard" onClick={() => setIsOpen(false)}>Dashboard</NavLink>
+        </li>
+        <li>
+          <NavLink to="/login" onClick={() => setIsOpen(false)}>Login</NavLink>
         </li>
       </ul>
 

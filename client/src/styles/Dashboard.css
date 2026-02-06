@@ -13,7 +13,7 @@
   margin-bottom: 2rem;
 }
 
-.card {
+.dcard {
   background: #f8f8ff;
   padding: 1.2rem;
   border-radius: 12px;
@@ -21,13 +21,13 @@
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.card h3 {
+.dcard h3 {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
   color: #555;
 }
 
-.card p {
+.dcard p {
   font-size: 1.5rem;
   font-weight: 600;
   color: #222;

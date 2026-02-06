@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import KnowledgeQuiz from "../components/quiz/KnowledgeQuiz";
 import PhishingLab from "../components/quiz/PhishingLab";
 import RealWorldQuiz from "../components/quiz/RealWorldQuiz";
-import ProgressBar from "../components/quiz/ProgressBar";
 
 import "../styles/quiz.css";
 

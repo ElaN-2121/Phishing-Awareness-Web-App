@@ -7,6 +7,8 @@ import PhishingDetail from "./pages/PhishingDetail.jsx";
 import Quiz from "./pages/Quiz.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Footer from "./components/common/Footer.jsx";
+import Login from "./pages/Login.jsx";
+import Register from "./pages/Register.jsx";
 import "./styles/App.css";
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
       <div className="app-content">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} /> 
           <Route path="/learn" element={<Learn />} />
           <Route path="/learn/:slug" element={<PhishingDetail />} />
           <Route path="/quiz" element={<Quiz />} />

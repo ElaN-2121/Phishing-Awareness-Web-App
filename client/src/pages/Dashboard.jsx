@@ -44,19 +44,19 @@ const DashboardMain = () => {
 
       {/* Overview Cards */}
       <div className="overview-cards">
-        <div className="card">
+        <div className="dcard">
           <h3>Quizzes Completed</h3>
           <p>{stats.quizzesCompleted}</p>
         </div>
-        <div className="card">
+        <div className="dcard">
           <h3>Labs Completed</h3>
           <p>{stats.labsCompleted}</p>
         </div>
-        <div className="card">
+        <div className="dcard">
           <h3>Average Score</h3>
           <p>{stats.averageScore}%</p>
         </div>
-        <div className="card">
+        <div className="dcard">
           <h3>Phishing Level</h3>
           <p>{stats.level}</p>
         </div>

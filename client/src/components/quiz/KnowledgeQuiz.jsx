@@ -77,9 +77,9 @@ const KnowledgeQuiz = ({ goBack }) => {
       {current < questions.length ? (
         <>
           {/* Progress */}
-          <div className="progress-wrapper">
+          <div className="quiz-progress-wrapper">
             <div
-              className="progress-bar"
+              className="quiz-progress-bar"
               style={{ width: `${progress}%` }}
             />
           </div>
