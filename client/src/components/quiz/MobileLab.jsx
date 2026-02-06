@@ -1,57 +1,140 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function MobileLab({ questionData, onAnswer }) {
-  const [selectedAction, setSelectedAction] = useState(null);
+const PhishingLab = ({ goBack }) => {
+  const messages = [
+    {
+      id: 1,
+      sender: "Telebirr",
+      preview: "Your account has been suspended...",
+      content:
+        "Telebirr Alert:\n\nYour account is temporarily suspended due to unusual activity.\n\nClick the link below to restore access:\ntelebirr-secure-et.com",
+      correctAction: "report",
+      explanation:
+        "Telebirr does NOT send recovery links via SMS. Reporting this message prevents account compromise."
+    },
+    {
+      id: 2,
+      sender: "Ethio Telecom",
+      preview: "Monthly data update",
+      content:
+        "Ethio Telecom:\n\nYour monthly data bundle has been successfully renewed.\n\nThank you for using Ethio Telecom.",
+      correctAction: "ignore",
+      explanation:
+        "This is a legitimate informational message. No action is required."
+    }
+  ];
+
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [result, setResult] = useState(null);
+  const [feedback, setFeedback] = useState("");
+  const [score, setScore] = useState(0);
+  const [completed, setCompleted] = useState([]);
 
   const handleAction = (action) => {
-    setSelectedAction(action);
-    const isCorrect = action === questionData.correctAction;
-    onAnswer(isCorrect, questionData.explanation);
+    if (!selectedMessage) return;
+
+    const isCorrect = action === selectedMessage.correctAction;
+
+    setResult(isCorrect ? "correct" : "wrong");
+    setFeedback(selectedMessage.explanation);
+
+    if (isCorrect && !completed.includes(selectedMessage.id)) {
+      setScore((prev) => prev + 1);
+    }
+
+    if (!completed.includes(selectedMessage.id)) {
+      setCompleted((prev) => [...prev, selectedMessage.id]);
+    }
+  };
+
+  const resetLab = () => {
+    setSelectedMessage(null);
+    setResult(null);
+    setFeedback("");
+    setScore(0);
+    setCompleted([]);
   };
 
   return (
-    <div className="lab-question-card" style={{ maxWidth: "400px", margin: "40px auto", textAlign: "center" }}>
-      <h3>{questionData.title}</h3>
+    <div className="quiz-card">
+      <button className="back-btn" onClick={goBack}>
+        ← Back
+      </button>
 
-      {/* Phone Simulator */}
-      <div style={{
-        border: "12px solid #333",
-        borderRadius: "30px",
-        padding: "20px",
-        margin: "20px 0",
-        background: "#fff"
-      }}>
-        <div style={{ fontSize: "12px", marginBottom: "10px" }}>12:30 PM 📶</div>
-        <div style={{
-          background: "#e5e5ea",
-          padding: "10px",
-          borderRadius: "10px",
-          textAlign: "left"
-        }}>
-          <strong>From: {questionData.simulator.sender}</strong>
-          <p>{questionData.simulator.content}</p>
+      <h2>Phishing Simulation Lab</h2>
+      <p>Interact with the phone below and decide what to do.</p>
+
+      <div className="phone-frame">
+        {!selectedMessage ? (
+          <div className="message-list">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                className="message-item"
+                onClick={() => {
+                  setSelectedMessage(msg);
+                  setResult(null);
+                  setFeedback("");
+                }}
+              >
+                <strong>{msg.sender}</strong>
+                <p>{msg.preview}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="message-view">
+            <button
+              className="back-message"
+              onClick={() => {
+                setSelectedMessage(null);
+                setResult(null);
+                setFeedback("");
+              }}
+            >
+              ← Messages
+            </button>
+
+            <pre>{selectedMessage.content}</pre>
+
+            <div className="sim-actions">
+              <button onClick={() => handleAction("click")}>
+                🔗 Click Link
+              </button>
+              <button onClick={() => handleAction("ignore")}>
+                ❌ Ignore
+              </button>
+              <button onClick={() => handleAction("report")}>
+                🚩 Report
+              </button>
+            </div>
+
+            {result && (
+              <div className="feedback">
+                <p>
+                  {result === "correct"
+                    ? "✅ Correct decision."
+                    : "❌ Risky decision."}
+                </p>
+                <p>{feedback}</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {completed.length === messages.length && (
+        <div className="quiz-result">
+          <h3>Lab Completed 🧪</h3>
+          <p>
+            You made the correct decision in <strong>{score}</strong> out of{" "}
+            <strong>{messages.length}</strong> simulations.
+          </p>
+          <button onClick={resetLab}>Retry Lab</button>
         </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        {["CLICK", "BLOCK", "IGNORE"].map((action) => (
-          <button
-            key={action}
-            onClick={() => handleAction(action)}
-            disabled={selectedAction !== null}
-            style={{
-              padding: "10px",
-              backgroundColor: action === "BLOCK" ? "#44bb44" : action === "CLICK" ? "#ff4444" : "#ccc",
-              cursor: selectedAction !== null ? "default" : "pointer"
-            }}
-          >
-            {action === "CLICK" ? "Click Link" : action === "BLOCK" ? "Block Sender" : "Ignore"}
-          </button>
-        ))}
-      </div>
-
-      {selectedAction && <p style={{ marginTop: "20px" }}>{questionData.explanation}</p>}
+      )}
     </div>
   );
-}
+};
+
+export default PhishingLab;
