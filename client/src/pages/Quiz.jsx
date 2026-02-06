@@ -5,9 +5,6 @@ import PhishingLab from "../components/quiz/PhishingLab";
 import RealWorldQuiz from "../components/quiz/RealWorldQuiz";
 import ProgressBar from "../components/quiz/ProgressBar";
 
-import { section1Data } from "../services/McqData";
-import {mockLessons} from "../services/lessonData";
-
 import "../styles/quiz.css";
 
 const Quiz = () => {

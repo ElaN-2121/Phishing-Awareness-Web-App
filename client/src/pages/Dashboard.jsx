@@ -1,130 +1,136 @@
-import React from "react";
+import React, { useState } from "react";
+import Certificate from "../components/Certificate";
+import "../styles/dashboard.css";
 
-export default function Dashboard() {
-  // Mock data
-  const username = "Elman";
-  const stats = [
-    { title: "Quizzes Taken", value: 12 },
-    { title: "Average Score", value: "85%" },
-    { title: "Lab Challenges", value: 5 },
-  ];
+// Mock data (replace with real user data later)
+const mockStats = {
+  quizzesCompleted: 12,
+  labsCompleted: 5,
+  averageScore: 100, // set to 100 to enable certificate
+  level: "Intermediate",
+};
 
-  const recentActivities = [
-    { type: "MCQ Quiz", score: "90%", date: "Feb 5, 2026" },
-    { type: "Lab Challenge", score: "✔", date: "Feb 4, 2026" },
-    { type: "MCQ Quiz", score: "75%", date: "Feb 3, 2026" },
-  ];
+const totalQuizzes = 12;
+const totalLabs = 5;
 
-  const badges = [
-    { name: "First Quiz", icon: "🏆" },
-    { name: "Lab Novice", icon: "🛡️" },
-  ];
+const mockProgress = [
+  { type: "Knowledge Quiz", progress: 100 },
+  { type: "Real-World Quiz", progress: 100 },
+  { type: "Phishing Lab", progress: 100 },
+];
+
+const mockRecentLabs = [
+  { id: 1, scenario: "Telebirr SMS", result: "Correct" },
+  { id: 2, scenario: "CBE WhatsApp", result: "Correct" },
+  { id: 3, scenario: "Ethio Telecom SMS", result: "Correct" },
+];
+
+const DashboardMain = () => {
+  const [stats, setStats] = useState(mockStats);
+  const [progress, setProgress] = useState(mockProgress);
+  const [recentLabs, setRecentLabs] = useState(mockRecentLabs);
+
+  const [showCertificate, setShowCertificate] = useState(false);
+
+  // Check if all questions are correct
+  const allCorrect =
+    stats.quizzesCompleted === totalQuizzes &&
+    stats.labsCompleted === totalLabs &&
+    stats.averageScore === 100;
 
   return (
-    <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto", fontFamily: "Arial, sans-serif" }}>
-      {/* Greeting */}
-      <div>
-        <h1>Hello, {username}!</h1>
-        <p>Welcome back to your phishing awareness dashboard.</p>
-      </div>
+    <main className="dashboard-main">
+      <h1>Welcome to Your Dashboard</h1>
 
-      {/* Stats & Progress */}
-      <div style={{ display: "flex", gap: "20px", marginTop: "20px", flexWrap: "wrap" }}>
-        {/* Stats Cards */}
-        {stats.map((stat, i) => (
-          <div
-            key={i}
-            style={{
-              flex: "1 1 150px",
-              background: "#f5f5ff",
-              padding: "20px",
-              borderRadius: "10px",
-              textAlign: "center",
-              boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-            }}
-          >
-            <h3>{stat.value}</h3>
-            <p>{stat.title}</p>
-          </div>
-        ))}
-
-        {/* Progress Chart Placeholder */}
-        <div
-          style={{
-            flex: "2 1 300px",
-            background: "#fff",
-            padding: "20px",
-            borderRadius: "10px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-            textAlign: "center",
-          }}
-        >
-          <h3>Progress Over Time</h3>
-          <p>Chart placeholder (use Recharts or Chart.js)</p>
+      {/* Overview Cards */}
+      <div className="overview-cards">
+        <div className="card">
+          <h3>Quizzes Completed</h3>
+          <p>{stats.quizzesCompleted}</p>
+        </div>
+        <div className="card">
+          <h3>Labs Completed</h3>
+          <p>{stats.labsCompleted}</p>
+        </div>
+        <div className="card">
+          <h3>Average Score</h3>
+          <p>{stats.averageScore}%</p>
+        </div>
+        <div className="card">
+          <h3>Phishing Level</h3>
+          <p>{stats.level}</p>
         </div>
       </div>
 
-      {/* Recent Activity */}
-      <div style={{ background: "#f0f0ff", padding: "20px", borderRadius: "10px", marginTop: "40px" }}>
-        <h3>Recent Activity</h3>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {recentActivities.map((act, i) => (
-            <li key={i} style={{ marginBottom: "10px" }}>
-              <strong>{act.type}</strong> - {act.score} ({act.date})
+      {/* Progress Section */}
+      <section className="progress-section">
+        <h2>Your Progress</h2>
+        {progress.map((item, idx) => (
+          <div key={idx} className="progress-bar-container">
+            <span>{item.type}</span>
+            <div className="progress-bar">
+              <div
+                className="progress-bar-fill"
+                style={{ width: `${item.progress}%` }}
+              ></div>
+            </div>
+            <span>{item.progress}%</span>
+          </div>
+        ))}
+      </section>
+
+      {/* Recent Labs */}
+      <section className="recent-labs">
+        <h2>Recent Lab Attempts</h2>
+        <ul>
+          {recentLabs.map((lab) => (
+            <li
+              key={lab.id}
+              className={`lab-result ${lab.result.toLowerCase()}`}
+            >
+              <span>{lab.scenario}</span>
+              <span className="result-badge">{lab.result}</span>
             </li>
           ))}
         </ul>
-      </div>
+      </section>
 
-      {/* Quick Actions & Badges */}
-      <div style={{ display: "flex", gap: "20px", marginTop: "40px", flexWrap: "wrap" }}>
-        {/* Quick Actions */}
+      {/* Quick Actions */}
+      <section className="quick-actions">
+        <h2>Quick Actions</h2>
+        <button>🧠 Start Knowledge Quiz</button>
+        <button>🌍 Start Real-World Quiz</button>
+        <button>🧪 Open Phishing Lab</button>
+
+        {allCorrect ? (
+          <button onClick={() => setShowCertificate(true)}>
+            🎓 Generate Certificate
+          </button>
+        ) : (
+          <button
+            disabled
+            title="Answer all questions correctly to unlock certificate"
+          >
+            🎓 Generate Certificate
+          </button>
+        )}
+      </section>
+
+      {/* Certificate Modal */}
+      {showCertificate && (
         <div
-          style={{
-            flex: "1 1 200px",
-            background: "#fff",
-            padding: "20px",
-            borderRadius: "10px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+          className="certificate-modal"
+          onClick={(e) => {
+            // Close modal only if clicking the background, not the certificate itself
+            if (e.target.className === "certificate-modal")
+              setShowCertificate(false);
           }}
         >
-          <h3>Quick Actions</h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            <button style={{ padding: "10px" }}>Take a Quiz</button>
-            <button style={{ padding: "10px" }}>Start Lab Challenge</button>
-            <button style={{ padding: "10px" }}>View Learning Material</button>
-          </div>
+          <Certificate level={stats.level} />
         </div>
-
-        {/* Badges */}
-        <div
-          style={{
-            flex: "1 1 200px",
-            background: "#fff",
-            padding: "20px",
-            borderRadius: "10px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
-          }}
-        >
-          <h3>Badges</h3>
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "10px" }}>
-            {badges.map((badge, i) => (
-              <div
-                key={i}
-                style={{
-                  padding: "10px",
-                  borderRadius: "10px",
-                  background: "#e5e5ff",
-                  textAlign: "center",
-                }}
-              >
-                <span style={{ fontSize: "24px" }}>{badge.icon}</span>
-                <p>{badge.name}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
+      )}
+    </main>
   );
-}
+};
+
+export default DashboardMain;
