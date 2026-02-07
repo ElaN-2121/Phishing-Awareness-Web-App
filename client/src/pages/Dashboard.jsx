@@ -6,7 +6,7 @@ import "../styles/dashboard.css";
 const mockStats = {
   quizzesCompleted: 12,
   labsCompleted: 5,
-  averageScore: 100, // set to 100 to enable certificate
+  averageScore: 100, 
   level: "Intermediate",
 };
 
@@ -121,7 +121,7 @@ const DashboardMain = () => {
         <div
           className="certificate-modal"
           onClick={(e) => {
-            // Close modal only if clicking the background, not the certificate itself
+            // Close modal only if clicking the background
             if (e.target.className === "certificate-modal")
               setShowCertificate(false);
           }}
